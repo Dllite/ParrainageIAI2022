@@ -2,18 +2,16 @@
 
     session_start();
 
-    require_once "includes/db.php";
+    require_once "db/db.php";
 
-    require_once "view/head_view.php";
+    require_once "view/header_view.php";
 
-    require_once "_fonction/fontion.php";
+    require_once "_function/funtion.php";
     
    
     $errors=[];
     
-    $email_s=$_SESSION['email'];
-    $nom_s=$_SESSION['nom'];
-    $niveau=$_SESSION['niveau'];
+
    
 //   if(!$nom){
 //       echo "<script type='text/javascript'>document.location.replace('../index.php');</script>";
@@ -23,7 +21,7 @@
 
     
     if(isset($_POST['submit'])){
-        
+        extract($_POST);
          $code=sanitaze($_POST['code']);
          
         if(empty($code)){
@@ -50,21 +48,9 @@
     
   
 ?>
-<div class="form-body">
-        <div class="website-logo">
-            <a href="../index.php">
-                <div class="logo">
-                    <img class="logo-size" src="images/logo-light.svg" alt="">
-                </div>
-            </a>
-        </div>
+<div class="container a-container form-body">
+        
         <div class="row">
-            <div class="img-holder">
-                <div class="bg"></div>
-                <div class="info-holder">
-                    <img src="../assets/images/iailogo.png" alt="">
-                </div>
-            </div>
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
@@ -73,9 +59,9 @@
                         <form method="POST">
                             <input class="form-control" type="number" name="code" placeholder="Code otp">
                             <?= display_errors($errors, 'code')?>
-                            <div class="form-button full-width">
-                                <button id="submit" type="submit" name="submit" class="ibtn btn-forget">Validé le code</button>
-                            </div>
+                            
+                             <button class="form__button button" name="inscription">Inscription</button>    
+                          
                     
                              <a href="deconnexion.php" class="ibtn btn-danger">Deconnexion</a>
                         </form>
@@ -85,3 +71,7 @@
             </div>
         </div>
     </div>
+<?php
+    require_once "view/footer_view.php";
+
+    ?>

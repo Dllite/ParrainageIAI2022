@@ -1,47 +1,38 @@
 <?php
 
-    require_once 'includes/db.php';
+    require_once 'db/db.php';
     session_start();
     $email=$_SESSION['email'];
-     $nom=$_SESSION['nom'];
-     $niveau=$_SESSION['niveau'];
     if(empty($email)){
-        echo "<script type='text/javascript'>document.location.replace('controller/login.php');</script>";
+        echo "<script type='text/javascript'>document.location.replace('login.php');</script>";
     }else{
-        $q=$db->query("SELECT * FROM $niveau WHERE email='$email'");
+        $q=$con->query("SELECT * FROM niveau1 WHERE email='$email'");
         
         $info=$q->fetch_assoc();
        
-        $filiere=$info['filiere'];
+        /*$filiere=$info['filiere'];
         $parrain=$info['nom_parain'];
         $filleule=$info['filleule'];
-        $image=$info['image'];
+        $image=$info['image'];*/
         
         
         
-        // il y a un probléme a se niveau 
-        // quant tu commente la page profils n'affiche  pas
-        
-        
-        
-        if($parrain==''){
+        /*if($parrain==''){
           $verif=$db->query("SELECT * FROM l2 WHERE filleule=''");
-                  $ligne=mysqli_num_rows($verif);
+            $ligne=mysqli_num_rows($verif);
                  $list=$verif->fetch_assoc();
                 $nom_p=$list['nom_p'];
                 $id_p=$list['id'];
-        if($ligne==TRUE){
-            $maj = $db->query("UPDATE l1 SET nom_parain='$nom_p' WHERE email='$email'");
-            $updatel2 = $db->query("UPDATE l2 SET filleule='$nom' WHERE id=$id_p");
-        }
+            if($ligne==TRUE){
+                $maj = $db->query("UPDATE l1 SET nom_parain='$nom_p' WHERE email='$email'");
+                $updatel2 = $db->query("UPDATE l2 SET filleule='$nom' WHERE id=$id_p");
+            }
+        }*/ 
     }
-        
+  
+    if($info['active']==0){
+      header("location:confirmation.php");
     }
-    //Vérification si le parain existe
-    
-    
-         
-    
     
     if(isset($_POST['submit'])){
         $photo= $_FILES['img']['name'];
@@ -53,11 +44,40 @@
             echo "<script type='text/javascript'>document.location.replace('profil.php');</script>";
         }
     }
+
+    //Parrainage 
+    
+    $parrain = $con->query("SELECT * FROM niveau1 WHERE classe='gl2' or classe='sr2'");
+    
+    $filleule = $con->query("SELECT * FROM niveau1 WHERE classe='gl1-a' or classe='gl1-b' or  classe='sr1' ");
+
+      while($ligne_filleul=$filleule->fetch_assoc()){
+
+        $nom_filleul = $ligne_filleul['nomEt1'];
+        $email_filleul = $ligne_filleul['email'];
+
+        while($ligne_parrain=$parrain->fetch_assoc()){
+
+          $nom_parrain = $ligne_parrain['nomEt1'];
+          $email_parrain = $ligne_parrain['email'];
+
+          $verif_parrain = $con->query("SELECT count(Et2) FROM parrainage");
+          $row_parrain = mysqli_num_rows($verif_parrain);
+
+          $verif_filleul = $con->query("SELECT count(EtL1) FROM parrainage");
+          $row_filleul = mysqli_num_rows($verif_filleul);
+          
+          
+          var_dump($_POST);
+          
+        }
+      }
+    
+   
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -104,7 +124,14 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="assets/images/<?=$image?>" alt="Profile" class="rounded-circle">
-              <h2><?=$nom?></h2>
+              <?php 
+                echo $nom_parrain.'<br>';
+                echo $email_parrain.'<br>';
+                echo $nom_filleul.'<br>';
+                echo $email_filleul.'<br>';
+                echo $row_parrain;
+              ?>
+              <h2><?=$info['nomEt1']?></h2>
               <h3>Etudiant</h3>
               <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -148,42 +175,38 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nom complet</div>
-                    <div class="col-lg-9 col-md-8"><?=$nom?></div>
+                    <div class="col-lg-9 col-md-8"><?=$info['nomEt1']?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Niveau</div>
-                    <div class="col-lg-9 col-md-8"><?=$niveau?></div>
+                    <div class="col-lg-9 col-md-8"><?=$info['classe']?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Filière</div>
-                    <div class="col-lg-9 col-md-8"><?=$filiere?></div>
+                    <div class="col-lg-9 col-md-8"><?=$info['classe']?></div>
                   </div>
                 
                 <?php 
                 
-                if($niveau=='l1'){
+                if($info['classe']=='l1'){
                 echo '
                 <div class="row">
                     <div class="col-lg-3 col-md-4 label">Parain</div>
-                    <div class="col-lg-9 col-md-8">';?><?php echo $parrain;?><?php echo '</div>
+                    <div class="col-lg-9 col-md-8">';?><?php ?><?php echo '</div>
                 </div>';}
                 ?>
                 <?php 
                 
-                if($niveau=='l2'){
+                if($info['classe']=='l2'){
                 echo '
                 <div class="row">
                     <div class="col-lg-3 col-md-4 label">Filleule</div>
-                    <div class="col-lg-9 col-md-8">';?><?php echo $filleule;?><?php echo '</div>
+                    <div class="col-lg-9 col-md-8">';?><?php      ?><?php echo '</div>
                 </div>';}
                 ?>
                 
-                  
-
-
-
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
                     <div class="col-lg-9 col-md-8"><?=$email?></div>
@@ -210,7 +233,7 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nom complet </label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?=$nom?>">
+                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?=$info['nomEt1']?>">
                       </div>
                     </div>
 
@@ -219,9 +242,9 @@
 
 
                     <div class="row mb-3">
-                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Niveau</label>
+                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">classe</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="<?=$niveau?>">
+                        <input name="country" type="text" class="form-control" id="Country" value="<?=$info['classe']?>">
                       </div>
                     </div>
 
@@ -287,10 +310,10 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>LITE CORP</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>DL LITE CORP</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-      Designed by <a href="https://bootstrapmade.com/">JULIO GUIMATSA</a>
+      Designed by <a href="https://wintuto.com/">Dilan Zambou </a>
     </div>
   </footer><!-- End Footer -->
 

@@ -16,9 +16,9 @@
           <?= display_errors($errors, 'email')?>
           <input class="form__input" type="email" name="cemail" value="<?= get_data($_POST, 'cemail')?>" placeholder="Conirmer l'email">
           <?= display_errors($errors, 'cemail')?>
-          <input class="form__input" type="password" name="motdepasse" value="<?= get_data($_POST, 'motdepasse')?> placeholder="Mot de passe">
+          <input class="form__input" type="password" name="motdepasse" value="<?= get_data($_POST, 'motdepasse')?>" placeholder="Mot de passe">
           <?= display_errors($errors, 'motdepasse')?>
-          <input class="form__input" type="password" name="rmotdepasse" value="<?= get_data($_POST, 'rmotdepasse')?> placeholder="Confirmer le mot de passe">
+          <input class="form__input" type="password" name="rmotdepasse" value="<?= get_data($_POST, 'rmotdepasse')?>" placeholder="Confirmer le mot de passe">
           <?= display_errors($errors, 'rmotdepasse')?>
             <select name="classe" class="form__input">
                 <option value="gl1-a" class="form__input">GL 1 A</option>
@@ -31,13 +31,16 @@
         </form>
       </div>
       <div class="container b-container" id="b-container">
-        <form class="form" id="b-form" method="GET">
+        <form class="form" id="b-form" method="POST">
           <h2 class="form_title title">Connectez vous</h2>
-          <?= display_errors($errors, 'nom')?>
+        
           <input class="form__input" type="email" name="email" value="<?= get_data($_POST, 'email')?>" placeholder="Email">
-          <?= display_errors($errors, 'password')?>
-        <input class="form__input" type="password" value="<?= get_data($_POST, 'password')?>" placeholder="Mot de passe"><a class="form__link">Mot de passe oublié ?</a>
-          <button class="form__button button submit">Connexion</button>
+          <?= display_errors($errors, 'nom')?>
+         
+        <input class="form__input" type="password" name="password" value="<?= get_data($_POST, 'password')?>" placeholder="Mot de passe">
+        <?= display_errors($errors, 'password')?>
+        <a class="form__link">Mot de passe oublié ?</a>
+          <button class="form__button button" name="connexion">Connexion</button>
         </form>
       </div>
       <div class="switch" id="switch-cnt">

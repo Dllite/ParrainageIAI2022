@@ -5,7 +5,7 @@
     session_destroy();
     
     
-    header('location:controller/login.php');
+    header('location:login.php');
 
 
 ?>

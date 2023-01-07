@@ -27,20 +27,22 @@
         if(empty($code)){
             $errors['code']="Champ obligatoire";
             
-        }else if(mb_strlen($nom)<6){
+        }else if(mb_strlen($code)<6){
             $errors['code']="Doit avoir au moins 6 caractères";
-        }else if(mb_strlen($nom)>6){
+        }else if(mb_strlen($code)>6){
             $errors['code']="Doit avoir au moins 6 caractères";
         }
         
-        $search=$db->query("SELECT * FROM $niveau WHERE user_otp='$code'");
-        $ligne=mysqli_num_rows($search);
-        
-        if($ligne==TRUE){
-            $active=$db->query("UPDATE $niveau SET active='1' WHERE user_otp='$code' ");
-            echo "<script type='text/javascript'>document.location.replace('../profil.php');</script>";
-        }else{
-            $errors['code']="Code invalide";
+        if(empty($errors)){
+            $search=$con->query("SELECT * FROM niveau1 WHERE otp='$code'");
+            $ligne=mysqli_num_rows($search);
+            
+            if($ligne==TRUE){
+                $active=$con->query("UPDATE niveau1 SET active='1' WHERE otp='$code' ");
+                echo "<script type='text/javascript'>document.location.replace('profil.php');</script>";
+            }else{
+                $errors['code']="Code invalide";
+            }
         }
         
     }
@@ -48,8 +50,8 @@
     
   
 ?>
-<div class="container a-container form-body">
-        
+
+<div class="container a-container form-body">  
         <div class="row">
             <div class="form-holder">
                 <div class="form-content">
@@ -59,11 +61,8 @@
                         <form method="POST">
                             <input class="form-control" type="number" name="code" placeholder="Code otp">
                             <?= display_errors($errors, 'code')?>
-                            
-                             <button class="form__button button" name="inscription">Inscription</button>    
-                          
-                    
-                             <a href="deconnexion.php" class="ibtn btn-danger">Deconnexion</a>
+                                <button class="btn btn-success button" name="submit">Confirmer</button> 
+                             <a href="deconnexion.php" class="ibtn ">Deconnexion</a>
                         </form>
                     </div>
                     

@@ -65,7 +65,7 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link active">Accueil</a>
                         </div>
-                        <a href="" class="btn btn-primary mr-3 d-none d-lg-block">Commencer</a>
+                        <a href="login.php" class="btn btn-primary mr-3 d-none d-lg-block">Commencer</a>
                     </div>
                 </nav>
             </div>

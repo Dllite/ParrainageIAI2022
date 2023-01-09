@@ -137,7 +137,9 @@
     if($niveau=="niveau2"){
       $affiche_filleul= $con->query("SELECT * FROM niveau2 WHERE email='$email'");
       $ligne=$affiche_filleul->fetch_assoc();
-      id2=$ligne['idL2'];
+      $id2=$ligne['idL2'];
+      $af=$con->query("SELECT * FROM parrainage where idL2='$id2'");
+      
 
     }
     
@@ -278,8 +280,14 @@
                 echo '
                 <div class="row">
                     <div class="col-lg-3 col-md-4 label">Filleule</div>
-                    <div class="col-lg-9 col-md-8">';?><?php    
-                      $lf= $con->query("SELECT * FROM parrainage where id=$_SESSION['idL2']")
+                    <div class="col-lg-9 col-md-8">';?><?php  
+                    
+                    while($f=$af->fetch_assoc()){
+                      
+                      $n1 = $con-> query("SELECT * FROM niveau1 WHERE idL1=$id1");
+                       $a=$n1->fetch_assoc();
+                       echo $a['nomComplet'].'<br>';
+                    }
                     
                     ;?><?php echo '</div>
                 </div>

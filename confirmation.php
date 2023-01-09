@@ -32,13 +32,13 @@
         }else if(mb_strlen($code)>6){
             $errors['code']="Doit avoir au moins 6 caractères";
         }
-        
+        $niveau = $_SESSION['niveau'];
         if(empty($errors)){
-            $search=$con->query("SELECT * FROM niveau1 WHERE otp='$code'");
+            $search=$con->query("SELECT * FROM $niveau WHERE otp='$code'");
             $ligne=mysqli_num_rows($search);
             
             if($ligne==TRUE){
-                $active=$con->query("UPDATE niveau1 SET active='1' WHERE otp='$code' ");
+                $active=$con->query("UPDATE $niveau SET active='1' WHERE otp='$code' ");
                 echo "<script type='text/javascript'>document.location.replace('profil.php');</script>";
             }else{
                 $errors['code']="Code invalide";

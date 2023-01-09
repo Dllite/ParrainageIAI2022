@@ -3,12 +3,21 @@
     require_once 'db/db.php';
     session_start();
     $email=$_SESSION['email'];
+    $niveau=$_SESSION['niveau'];
     if(empty($email)){
         echo "<script type='text/javascript'>document.location.replace('login.php');</script>";
     }else{
-        $q=$con->query("SELECT * FROM niveau1 WHERE email='$email'");
+        $q=$con->query("SELECT * FROM $niveau WHERE email='$email'");
         
         $info=$q->fetch_assoc();
+
+        if($niveau=="niveau1"){
+          $idL1=$info['idL1'];
+        }else{
+          $idL2=$info['idL2'];
+        }
+        
+
        
         /*$filiere=$info['filiere'];
         $parrain=$info['nom_parain'];
@@ -33,6 +42,9 @@
     if($info['active']==0){
       header("location:confirmation.php");
     }
+    if(empty($_SESSION['email'])){
+      header("location:login.php");
+    }
     
     if(isset($_POST['submit'])){
         $photo= $_FILES['img']['name'];
@@ -47,31 +59,87 @@
 
     //Parrainage 
     
-    $parrain = $con->query("SELECT * FROM niveau1 WHERE classe='gl2' or classe='sr2'");
+    //$parrain = $con->query("SELECT * FROM niveau2 WHERE classe='gl2' or classe='sr2'");
     
-    $filleule = $con->query("SELECT * FROM niveau1 WHERE classe='gl1-a' or classe='gl1-b' or  classe='sr1' ");
+    //$filleule = $con->query("SELECT * FROM niveau1 WHERE classe='gl1-a' or classe='gl1-b' or  classe='sr1' ");
 
+    
+     
+    /*if($parrain==true){
       while($ligne_filleul=$filleule->fetch_assoc()){
 
-        $nom_filleul = $ligne_filleul['nomEt1'];
+        $nom_filleul = $ligne_filleul['nomComplet'];
         $email_filleul = $ligne_filleul['email'];
 
         while($ligne_parrain=$parrain->fetch_assoc()){
 
-          $nom_parrain = $ligne_parrain['nomEt1'];
+          $nom_parrain = $ligne_parrain['nomComplet'];
           $email_parrain = $ligne_parrain['email'];
 
-          $verif_parrain = $con->query("SELECT count(Et2) FROM parrainage");
-          $row_parrain = mysqli_num_rows($verif_parrain);
+          $verif_parrain = $con->query("SELECT * FROM parrainage");
+          while($row_verif=$verif_parrain->fetch_assoc()){
+              $row_verif['emailFilleul'];
+              if(empty($row_verif['emailFilleul'])){
 
-          $verif_filleul = $con->query("SELECT count(EtL1) FROM parrainage");
-          $row_filleul = mysqli_num_rows($verif_filleul);
+                $parrainage = $con->query("INSERT INTO parrainage VALUES(NULL, '$nom_filleul', '$email_filleul', '$nom_parrain',' $email_parrain') ");
+              }
+          }
+          //$row_filleul = mysqli_num_rows($verif_filleul);
+          
           
           
           var_dump($_POST);
           
         }
       }
+    }*/
+
+    $cont_parrainage = $con->query("SELECT * FROM parrainage");
+
+    $par = $con->query("SELECT * FROM niveau2");
+    while($row_p = $par->fetch_assoc()){
+      $idL2=$row_p['idL2'];
+    }
+
+    $ligne=$cont_parrainage->fetch_assoc();
+     $row_idL1 = $ligne['idL1'];
+     $row_ld2 = $ligne['idL2'];
+     
+    
+    if($niveau=='niveau1'){
+      $completeParrainag = $con->query("SELECT COUNT(idL2) as total FROM parrainage");
+      
+      $num_row = mysqli_fetch_assoc($completeParrainag);
+      
+      if($num_row['total']<3){
+        if($row_idL1==NULL){
+          $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
+        }
+        if($row_idL1!=$idL1){
+          $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
+        }
+        
+      }else{
+        
+        $idL2 = rand(1, $num_row['total']);
+       // $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
+       
+      }
+
+      $cont_parra= $con->query("SELECT * FROM parrainage WHERE idL1='$idL1'");
+      $ligne_cont_parra = $cont_parra->fetch_assoc();
+      $ap=$ligne_cont_parra['idL2'];
+      $affiche_parrain_req = $con->query("SELECT * FROM niveau2 WHERE idL2='$ap'");
+      $final = mysqli_fetch_assoc($affiche_parrain_req);
+    
+    }
+    
+    if($niveau=="niveau2"){
+      $affiche_filleul= $con->query("SELECT * FROM niveau2 WHERE email='$email'");
+      $ligne=$affiche_filleul->fetch_assoc();
+      id2=$ligne['idL2'];
+
+    }
     
    
 ?>
@@ -125,13 +193,15 @@
 
               <img src="assets/images/<?=$image?>" alt="Profile" class="rounded-circle">
               <?php 
+              
+              /*
                 echo $nom_parrain.'<br>';
                 echo $email_parrain.'<br>';
                 echo $nom_filleul.'<br>';
                 echo $email_filleul.'<br>';
-                echo $row_parrain;
+                echo $row_parrain;*/
               ?>
-              <h2><?=$info['nomEt1']?></h2>
+              <h2><?=$info['nomComplet']?></h2>
               <h3>Etudiant</h3>
               <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -175,12 +245,12 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nom complet</div>
-                    <div class="col-lg-9 col-md-8"><?=$info['nomEt1']?></div>
+                    <div class="col-lg-9 col-md-8"><?=$info['nomComplet']?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Niveau</div>
-                    <div class="col-lg-9 col-md-8"><?=$info['classe']?></div>
+                    <div class="col-lg-9 col-md-8"><?=$niveau?></div>
                   </div>
 
                   <div class="row">
@@ -190,22 +260,34 @@
                 
                 <?php 
                 
-                if($info['classe']=='l1'){
+                if($_SESSION['niveau']=='niveau1'){
                 echo '
                 <div class="row">
                     <div class="col-lg-3 col-md-4 label">Parain</div>
-                    <div class="col-lg-9 col-md-8">';?><?php ?><?php echo '</div>
-                </div>';}
+                    <div class="col-lg-9 col-md-8">';?><?php echo $final['nomComplet'];  ?><?php echo '</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Classe Parrain/Marraine</div>
+                    <div class="col-lg-9 col-md-8">';?><?=$final['classe'];?><?='</div>
+                  </div>';
+                ;}
                 ?>
                 <?php 
                 
-                if($info['classe']=='l2'){
+                if($_SESSION['niveau']=='niveau2'){
                 echo '
                 <div class="row">
                     <div class="col-lg-3 col-md-4 label">Filleule</div>
-                    <div class="col-lg-9 col-md-8">';?><?php      ?><?php echo '</div>
-                </div>';}
-                ?>
+                    <div class="col-lg-9 col-md-8">';?><?php    
+                      $lf= $con->query("SELECT * FROM parrainage where id=$_SESSION['idL2']")
+                    
+                    ;?><?php echo '</div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Classe Filleul</div>
+                    <div class="col-lg-9 col-md-8"><?=$email?></div>
+                  </div>';}?>
                 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
@@ -233,7 +315,7 @@
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nom complet </label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?=$info['nomEt1']?>">
+                        <input name="fullName" type="text" class="form-control" id="fullName" value="<?=$info['nomComplet']?>">
                       </div>
                     </div>
 

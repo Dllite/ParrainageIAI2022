@@ -1,6 +1,6 @@
 <?php
 
-$con = mysqli_connect("localhost:3300","root","","iaisponsorship");
+$con = mysqli_connect("localhost:3300","root","","iaiparrainage");
 
 // Check connection
 if (mysqli_connect_errno()) {

@@ -62,10 +62,12 @@ extract($_POST);
     $_SESSION['email']=$email;
 
     $_SESSION['nom']= $nom;
+
+    $_SESSION['niveau']= $niveau;
   
     $otp = rand(999999,100000);
     
-    $req = $con->query("INSERT INTO niveau1 VALUES (NULL, '$nom', '$email', '$motdepasse', '$classe', '0', '$otp')") or die("Erreur");
+    $req = $con->query("INSERT INTO $niveau VALUES (NULL, '$nom', '$email', '$motdepasse', '$classe', '0', '$otp')") or die("Erreur");
 
     $mail = new PHPMailer();
             //Set mailer to use smtp
@@ -128,9 +130,25 @@ if(isset($_POST['connexion'])){
         $errors['password'] = "Doit avoir au moins 6 caractères";
     }
     if(empty($errors)){
-        $log = $con->query("SELECT * FROM niveau1 WHERE email='$email' && motdepasse='$password'");
+        $log = $con->query("SELECT * FROM niveau1  WHERE email='$email' && motdepasse='$password'");
+
         $result = mysqli_num_rows($log);
+
         if($result==TRUE){
+          $_SESSION['niveau']="niveau1";
+
+          $_SESSION['email']=$email;
+          header("location:profil.php");
+        }else{
+          $errors['display'] = "Email ou mot de passe invalide";
+        }
+        $log2 = $con->query("SELECT * FROM niveau2  WHERE email='$email' && motdepasse='$password'");
+
+        $result2 = mysqli_num_rows($log2);
+
+        if($result2==TRUE){
+          $_SESSION['niveau']="niveau2";
+
           $_SESSION['email']=$email;
           header("location:profil.php");
         }else{

@@ -20,12 +20,16 @@
           <?= display_errors($errors, 'motdepasse')?>
           <input class="form__input" type="password" name="rmotdepasse" value="<?= get_data($_POST, 'rmotdepasse')?>" placeholder="Confirmer le mot de passe">
           <?= display_errors($errors, 'rmotdepasse')?>
+          <select class="form__input" name="niveau">
+            <option value="niveau1">Niveau 1</option>
+            <option value="niveau2">Niveau 2</option>
+          </select>
             <select name="classe" class="form__input">
-                <option value="gl1-a" class="form__input">GL 1 A</option>
-                <option value="gl1-b" class="form__input">GL 1 B</option>
-                <option value="sr1" class="form__input">SR 1</option>
-                <option value="gl2" class="form__input">GL 2</option>
-                <option value="sr2" class="form__input">SR 2</option>
+                <option value="GL1-A" class="form__input">GL 1 A</option>
+                <option value="GL1-B" class="form__input">GL 1 B</option>
+                <option value="SR1" class="form__input">SR 1</option>
+                <option value="GL2" class="form__input">GL 2</option>
+                <option value="SR2" class="form__input">SR 2</option>
             </select>
           <button class="form__button button" name="inscription">Inscription</button>
         </form>

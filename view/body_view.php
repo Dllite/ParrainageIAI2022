@@ -83,17 +83,49 @@
                         <div class="team d-flex flex-column text-center rounded overflow-hidden">
                             <div class="position-relative">
                                 <div class="team-img">
-                                    <img class="img-fluid w-100" src="img/user.jpg" alt="">
+                                    <img class="img-fluid w-100" src="assets/images/dl.jpg" width="50px" alt="">
                                 </div>
                                 <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="https://twitter.com/Dllitecorp"><i class="fab fa-twitter"></i></a>
                                     <a class="btn btn-secondary btn-social mb-2" href="https://web.facebook.com/dllite1"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="https://cm.linkedin.com/in/dilan-zambou-518257224"><i class="fab fa-linkedin-in"></i></a>
                                 </div>
                             </div>
                             <div class="d-flex flex-column bg-primary text-center py-4">
                                 <h5 class="font-weight-bold">Dilan Zambou</h5>
                                 <p class="text-white m-0">Chef de projet</p>
+                            </div>
+                        </div>
+                        <div class="team d-flex flex-column text-center rounded overflow-hidden">
+                            <div class="position-relative">
+                                <div class="team-img">
+                                    <img class="img-fluid w-100" src="assets/images/andelson.jpg" alt="">
+                                </div>
+                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="https://twitter.com/Dllitecorp"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="https://web.facebook.com/dllite1"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="https://cm.linkedin.com/in/dilan-zambou-518257224"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column bg-primary text-center py-4">
+                                <h5 class="font-weight-bold">Teufack Andelsonx</h5>
+                                <p class="text-white m-0">Conseiller Technique</p>
+                            </div>
+                        </div>
+                        <div class="team d-flex flex-column text-center rounded overflow-hidden">
+                            <div class="position-relative">
+                                <div class="team-img">
+                                    <img class="img-fluid w-100" src="assets/images/tiani.jpg" alt="">
+                                </div>
+                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
+                                    <a class="btn btn-secondary btn-social mb-2" href="https://twitter.com/Dllitecorp"><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-secondary btn-social mb-2" href="https://web.facebook.com/dllite1"><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-secondary btn-social" href="https://cm.linkedin.com/in/dilan-zambou-518257224"><i class="fab fa-linkedin-in"></i></a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column bg-primary text-center py-4">
+                                <h5 class="font-weight-bold">Tiani Florinda</h5>
+                                <p class="text-white m-0">Assistante de conception</p>
                             </div>
                         </div>
                     </div>
@@ -124,7 +156,7 @@
                             <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
                                 <i class="fa fa-2x fa-city"></i>
                             </div>
-                            <h5 class="font-weight-bold mb-4 px-4">Grqphique design</h5>
+                            <h5 class="font-weight-bold mb-4 px-4">Graphique design</h5>
                             <img src="img/blog-3.jpg" alt="">
                         </div>
                         <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">

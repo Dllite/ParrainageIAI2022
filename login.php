@@ -92,7 +92,7 @@ extract($_POST);
     $mail->isHTML(true);
             //Attachment
 
-                // $mail->addAttachment('../assets/images/iailogo.png');
+            // $mail->addAttachment('../assets/images/iailogo.png');
 
             //Email body
     $mail->Body = "<h1>Code de confirmation</h1></br>
@@ -100,17 +100,17 @@ extract($_POST);
         echo "<script type='text/javascript'>document.location.replace('confirmation.php');</script>";
             
     $mail->addAddress($email);
-                     //Finally send email
+          //Finally send email
     if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
-          } else {
-            echo "Envoie d'un mail en cour... !";
-                        //Section 2: IMAP
-                        //Uncomment these to save your message in the 'Sent Mail' folder.
+    } else {
+        echo "Envoie d'un mail en cour... !";
+            //Section 2: IMAP
+            //Uncomment these to save your message in the 'Sent Mail' folder.
                         #if (save_mail($mail)) {
                         #    echo "Message saved!";
                         #}
-          }
+    }
 
   }
 }

@@ -63,7 +63,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Accueil</a>
+                            <a href="#" class="nav-item nav-link active">Accueil</a>
                         </div>
                         <a href="login.php" class="btn btn-primary mr-3 d-none d-lg-block">Commencer</a>
                     </div>

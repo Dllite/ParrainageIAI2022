@@ -86,31 +86,31 @@
           }
           //$row_filleul = mysqli_num_rows($verif_filleul);
           
-          
-          
           var_dump($_POST);
           
         }
       }
     }*/
 
-    $cont_parrainage = $con->query("SELECT * FROM parrainage");
+    $cont_parrainage = $con->query("SELECT * FROM parrainage WHERE idL1='$idL1'");
 
     $par = $con->query("SELECT * FROM niveau2");
-    while($row_p = $par->fetch_assoc()){
+    $row_p = $par->fetch_assoc();
       $idL2=$row_p['idL2'];
-    }
+    
 
     $ligne=$cont_parrainage->fetch_assoc();
-     $row_idL1 = $ligne['idL1'];
-     $row_ld2 = $ligne['idL2'];
+    $row_idL1 = $ligne['idL1'];
+    $row_ldL2 = $ligne['idL2'];
      
-    
+   // $rechercheParrain = $con->query("SELECT * FROM niveau2");
+   // $l=mysqli_fetch_all($rechercheParrain);
+    //$i=$l['idL2']
     if($niveau=='niveau1'){
-      $completeParrainag = $con->query("SELECT COUNT(idL2) as total FROM parrainage");
+      $completeParrainag = $con->query("SELECT COUNT(idL2) as total FROM parrainage WHERE idL1='$idL2'");
       
       $num_row = mysqli_fetch_assoc($completeParrainag);
-      
+      $totalParrain = $num_row['total'];
       if($num_row['total']<3){
         if($row_idL1==NULL){
           $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
@@ -118,14 +118,16 @@
         if($row_idL1!=$idL1){
           $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
         }
-        
-      }else{
-        
-        $idL2 = rand(1, $num_row['total']);
-       // $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
        
+  
       }
-
+        if(!isset($row_idL1)){
+          
+          
+            $attrib_parrain = $con->query("INSERT INTO parrainage VALUES('$idL1', '$idL2')");
+          
+        }
+      
       $cont_parra= $con->query("SELECT * FROM parrainage WHERE idL1='$idL1'");
       $ligne_cont_parra = $cont_parra->fetch_assoc();
       $ap=$ligne_cont_parra['idL2'];
@@ -195,7 +197,11 @@
 
               <img src="assets/images/<?=$image?>" alt="Profile" class="rounded-circle">
               <?php 
-              
+                echo $row_idL1;
+                echo '<br>';
+                echo $row_ldL2;
+                echo '<br>';
+                echo $totalParrain;
               /*
                 echo $nom_parrain.'<br>';
                 echo $email_parrain.'<br>';
@@ -283,7 +289,7 @@
                     <div class="col-lg-9 col-md-8">';?><?php  
                     
                     while($f=$af->fetch_assoc()){
-                      
+                       $id1=$f['idL1'];
                       $n1 = $con-> query("SELECT * FROM niveau1 WHERE idL1=$id1");
                        $a=$n1->fetch_assoc();
                        echo $a['nomComplet'].'<br>';
@@ -400,7 +406,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>DL LITE CORP</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>- DL LITE CORP</span></strong>. Tous droit reservés.
     </div>
     <div class="credits">
       Designed by <a href="https://wintuto.com/">Dilan Zambou </a>
